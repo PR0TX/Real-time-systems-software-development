@@ -1,0 +1,24 @@
+# ROS 2 / colcon generated files
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+
+# Local build output when using an in-tree colcon build
+build/
+install/
+log/
+
+# Editor and temporary files
+.vscode/
+*.swp
+*~
+
+# Course documents and temporary files
+*.txt
+*.docx
+*.pdf
+*.tmp
+~$*
+
+# Project build files that must remain tracked
+!**/CMakeLists.txt
