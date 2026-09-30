@@ -1,0 +1,5 @@
+---
+bool success
+uint64 previous_processed_count
+string previous_last_output
+string message

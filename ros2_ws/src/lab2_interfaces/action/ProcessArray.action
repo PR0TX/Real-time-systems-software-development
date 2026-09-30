@@ -1,0 +1,12 @@
+# Кожне вхідне значення множимо на 2
+int32[] data
+---
+int32[] processed_data
+bool success
+string message
+---
+# Кількість уже оброблених елементів
+uint32 current_index
+uint32 total
+float32 progress_percent
+int32 current_value

@@ -1,0 +1,8 @@
+data_filter:
+  ros__parameters:
+    qos_overrides:
+      /uppercase_topic:
+        publisher:
+          depth: 2
+          reliability: best_effort
+          durability: volatile
