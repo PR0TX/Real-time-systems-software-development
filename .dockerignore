@@ -1,8 +1,7 @@
-*
+**
 !Dockerfile
-!entrypoint.sh
-!ros2_ws/
-!ros2_ws/src/
+!build.sh
+!ros2_ws
+!ros2_ws/src
 !ros2_ws/src/**
-**/__pycache__
-**/.pytest_cache
+**/__pycache__/

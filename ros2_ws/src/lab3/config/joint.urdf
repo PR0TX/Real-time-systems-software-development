@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot name="lab_joint">
+  <link name="base_link"/>
+  <link name="arm_link"/>
+  <joint name="joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="arm_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="1" velocity="10"/>
+  </joint>
+  <ros2_control name="SimulatedJoint" type="system">
+    <hardware>
+      <plugin>lab3/SimulatedJoint</plugin>
+    </hardware>
+    <joint name="joint">
+      <command_interface name="velocity"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+</robot>

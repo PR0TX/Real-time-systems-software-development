@@ -1,56 +1,55 @@
-# Лабораторна №2 - Комунікаційні інтерфейси та QoS
+# Лабораторна № 3 · ROS 2 Lyrical
 
 ## Збірка
 
 ```bash
-cd "/home/ubuntu/Desktop/LABS/Real-time systems software development/Laboratory/2"
+sudo apt install build-essential cmake git libboost-thread-dev liblttng-ust-dev \
+  python3-colcon-common-extensions python3-matplotlib \
+  ros-lyrical-behaviortree-cpp ros-lyrical-controller-manager \
+  ros-lyrical-joint-state-broadcaster ros-lyrical-robot-state-publisher \
+  ros-lyrical-ros2controlcli ros-lyrical-rosidl-default-generators \
+  ros-lyrical-std-srvs ros-lyrical-tracetools-launch
 bash build.sh
+source "$HOME/ros2_lab3_colcon/install/setup.bash"
 ```
 
-У терміналі:
+## 3.1 · Прибирання ліжка
 
 ```bash
-source /opt/ros/lyrical/setup.bash
-source /home/ubuntu/ros2_lab2_colcon/install/setup.bash
+ros2 launch lab3 bed.launch.py method:=fsm season:=winter has_sheets:=false
+ros2 launch lab3 bed.launch.py method:=bt season:=summer has_pillows:=false clean_on_attempt:=3
+ros2 launch lab3 bed.launch.py method:=bt clean_on_attempt:=0
 ```
 
-## Файли
+## 3.2 · Експерименти та перемикання контролерів
 
-```text
-2/
-├── README.md
-├── build.sh
-├── Dockerfile
-├── entrypoint.sh
-├── .dockerignore
-├── .gitignore
-├── .vscode/settings.json
-└── ros2_ws/src/
-    ├── lab2_interfaces/
-    │   ├── CMakeLists.txt
-    │   ├── package.xml
-    │   ├── srv/ResetFilter.srv
-    │   └── action/ProcessArray.action
-    └── lab2_nodes/
-        ├── CMakeLists.txt
-        ├── package.xml
-        ├── src/data_filter.cpp
-        ├── src/reset_filter_client.cpp
-        ├── src/array_action_server.cpp
-        ├── src/pointcloud_components.cpp
-        ├── include/lab2_nodes/pointcloud_type_adapter.hpp
-        ├── config/qos_overrides.yaml
-        ├── launch/pointcloud_inter_process.launch.py
-        └── launch/pointcloud_intra_process.launch.py
+```bash
+ros2 run lab3 joint_experiments "$HOME/ros2_lab3_colcon/experiments"
+ros2 launch lab3 joint_control.launch.py
+```
+
+```bash
+ros2 run lab3 simulate_joint --ros-args -p kp:=5.0 -p period_ms:=50 \
+  -p actuation_ms:=100 -p feedback_ms:=50 -p compensate:=true \
+  -p output:="$HOME/ros2_lab3_colcon/custom.csv"
+```
+
+В іншому терміналі:
+
+```bash
+source "$HOME/ros2_lab3_colcon/install/setup.bash"
+ros2 control list_controllers
+ros2 control set_controller_state position_p active
+ros2 topic echo /joint_states --once
+ros2 control set_controller_state position_p inactive
+ros2 control set_controller_state position_p_predictor active
+ros2 control list_controllers
+ros2 control set_controller_state position_p_predictor inactive
 ```
 
 ## Docker
 
 ```bash
-cd "/home/ubuntu/Desktop/LABS/Real-time systems software development/Laboratory/2"
-docker build -t ros2-lab2 .
-docker run --rm -it --network host ros2-lab2 ros2 run lab2_nodes data_filter
-
-docker run --rm -it --network host ros2-lab2 \
-  ros2 launch lab2_nodes pointcloud_intra_process.launch.py
+docker build -t ros2-lab3 .
+docker run --rm -it ros2-lab3
 ```

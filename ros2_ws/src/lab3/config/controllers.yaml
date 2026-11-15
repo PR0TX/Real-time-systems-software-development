@@ -1,0 +1,21 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 20
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    position_p:
+      type: lab3/PositionP
+    position_p_predictor:
+      type: lab3/PositionP
+
+position_p:
+  ros__parameters:
+    kp: 5.0
+    target: 0.05
+    compensate: false
+
+position_p_predictor:
+  ros__parameters:
+    kp: 5.0
+    target: 0.05
+    compensate: true

@@ -1,0 +1,4 @@
+<library path="lab3_control">
+  <class name="lab3/SimulatedJoint" type="lab3::SimulatedJoint"
+         base_class_type="hardware_interface::SystemInterface"/>
+</library>
